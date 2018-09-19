@@ -1,0 +1,118 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+</head>
+<body>
+<form method="POST" id="gform" action="https://formspree.io/parthgoyal14@gmail.com" name="PriceQuotation" onsubmit="return(validate());">
+<table cellpadding="5" width="60%" bgcolor="white" align="center"
+cellspacing="2">
+<tr>
+<td colspan=2>
+<center><div id="heading"><b>Price Quotation Form<br>Maryzad Solar<br></b></div></center>
+<br>
+<br>
+</td>
+</tr>
+<tr>
+<td>Type of Activity</td>
+<td>
+<input type="radio" name="activity" checked ="checked" value="industrial" size="10">Industrial
+<input type="radio" name="activity" value="commercial" size="10">Commercial
+<input type="radio" name="activity" value="agricultural" size="10">Agricultural
+<input type="radio" name="activity" value="residential" size="10">Residential
+</td>
+</tr>
+<input type="hidden" name="latInput" id="latInput">
+<input type="hidden" name="lngInput" id="lngInput">
+    <tr><td>Select the site location</td>
+    <td><div id="map_canvas" style="width:300px;height:300px;background:yellow"></div>
+    <div id="current">Nothing yet...</div>
+</td>
+</tr>
+<tr>
+<td>Current Power Source</td>
+<td><input type="text" name="currentpowersource" id="currentpowersource"placeholder="eg: Elecrticity Board"
+size="30"></td>
+</tr>
+<tr>
+<td>Electricty loads are estimated</td>
+<td><input type="text" name="loads" id="loads" size="30"placeholder="eg: 60KVa"></td>
+</tr>
+<tr>
+<td>More Details</td>
+<td><textarea name="moredetails" cols="40" rows="10"placeholder="Text goes here..."></textarea><td>
+</tr>
+<tr>
+<td>Name*</td>
+<td><input type=text name=name id="name" size="30"placeholder="Your name.."></td>
+</tr>
+<tr>
+<td>MobileNo* (with country code eg. 0020)</td>
+<td><input type="text" name="mobileno" id="mobileno" size="30"placeholder="eg: 0091 8930077737"></td>
+</tr>
+<tr>
+<td>Your Email Id</td>
+<td><input type="text" name="emailid" id="emailid" size="30"></td>
+</tr>
+<tr><br><br></tr>
+<tr>
+<td><input type="reset"></td>
+<td colspan="2"><input type="submit" value="Get Quotation" /></td>
+</tr>
+</table>
+
+  
+<script language="javascript">
+
+var map = new google.maps.Map(document.getElementById('map_canvas'), {
+    zoom: 1,
+    center: new google.maps.LatLng(35.137879, -82.836914),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+
+var myMarker = new google.maps.Marker({
+    position: new google.maps.LatLng(47.651968, 9.478485),
+    draggable: true
+});
+
+google.maps.event.addListener(myMarker, 'dragend', function (evt) {
+    document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
+});
+
+google.maps.event.addListener(myMarker, 'dragstart', function (evt) {
+    document.getElementById('current').innerHTML = '<p>Currently dragging marker...</p>';
+});
+
+map.setCenter(myMarker.position);
+myMarker.setMap(map);
+    
+function validate()
+{
+if( document.PriceQuotation.name.value == "" )
+{
+alert( "Please provide your Name!" );
+document.PriceQuotation.name.focus() ;
+return false;
+}
+var email = document.PriceQuotation.emailid.value;
+atpos = email.indexOf("@");
+dotpos = email.lastIndexOf(".");
+if (email == "" || atpos < 1 || ( dotpos - atpos < 2 ))
+{
+alert("Please enter correct email ID")
+document.PriceQuotation.emailid.focus() ;
+return false;
+}
+if( document.PriceQuotation.mobileno.value == "" ||
+isNaN(document.PriceQuotation.mobileno.value))
+{
+alert( "Please provide a Mobile No in the format 123." );
+document.PriceQuotation.mobileno.focus() ;
+return false;
+}
+return( true );
+}
+</script>
+</body>
+</html>
